@@ -1,319 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MarsaMart - The Future of Ship Provisioning</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>MarsaMart - The Future of Ship Provisioning</title>
 
-  <!-- Favicon: Using the provided SVG as a data URI -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2306b6d4' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-14L4 7m8 4v10M4 7v10l8 4'/%3E%3C/svg%3E" type="image/svg+xml">
+    <!-- Favicon: Using the provided SVG as a data URI -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2306b6d4' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-14L4 7m8 4v10M4 7v10l8 4'/%3E%3C/svg%3E" type="image/svg+xml">
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <style>
-    /* Dark Theme Variables */
-    :root {
-      --page-bg: #0B1220;      /* dark background */
-      --panel-bg: rgba(14, 20, 30, 0.82);
-      --muted: #9CA3AF;        /* gray-400 */
-      --accent-cyan: #06b6d4;  /* cyan-400 */
-      --text-dark: #F8FBFF;    /* near-white */
-    }
+    <style>
+        /* Dark Theme Variables */
+        :root {
+            --page-bg: #0B1220;
+            --panel-bg: rgba(14, 20, 30, 0.82);
+            --muted: #9CA3AF;
+            --accent-cyan: #06b6d4;
+            --accent-cyan-light: #22d3ee;
+            --text-dark: #F8FBFF;
+        }
 
-    html, body { height: 100% }
-    body {
-      font-family: 'Manrope', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background-color: var(--page-bg);
-      color: var(--text-dark);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      scroll-behavior: smooth;
-    }
+        /* Basic page styles */
+        html, body { height: 100% }
+        body {
+            font-family: 'Manrope', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background-color: var(--page-bg);
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
+        }
 
-    /* Dark glass cards */
-    .glass-effect {
-      background: var(--panel-bg);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.06);
-    }
+        /* Hero background overlay with a more elegant gradient */
+        .hero-bg {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(11, 18, 32, 0.85) 0%, rgba(11, 18, 32, 0.95) 100%);
+            z-index: -1;
+        }
 
-    /* Feature card hover */
-    .feature-card {
-      transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
-      will-change: transform;
-      border-radius: 1rem;
-    }
-    .feature-card:hover,
-    .feature-card:focus-within {
-      transform: translateY(-8px);
-      box-shadow: 0 16px 40px rgba(6,182,212,0.1);
-    }
-    
-    .svg-icon-color {
-      color: var(--accent-cyan);
-    }
+        /* Header glass effect with a smoother transition */
+        .glass-effect-header {
+            background: var(--panel-bg);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.3s ease-in-out;
+        }
+        .glass-effect-header.shadow-lg {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            border-bottom-color: transparent;
+        }
 
-    /* Hero background overlay (dark) */
-    .hero-bg {
-      background-size: cover;
-      background-position: center;
-    }
+        /* Cards with a subtle border and enhanced shadow */
+        .glass-effect {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.3);
+            transition: all 0.3s ease-in-out;
+        }
 
-    /* Skip link */
-    .skip-link { position: absolute; left: -999px; top: auto; width:1px; height:1px; overflow:hidden; }
-    .skip-link:focus { left: 1rem; top: 1rem; width:auto; height:auto; padding:.5rem .75rem; background:#fff; border-radius:6px; z-index:50; color:#0B1220; box-shadow:0 6px 18px rgba(2,6,23,0.08); }
+        /* Feature card hover with an animated subtle glow */
+        .feature-card {
+            transition: transform .3s cubic-bezier(.2,.9,.2,1), box-shadow .3s, border-color .3s;
+            will-change: transform;
+            border-radius: 1rem;
+            position: relative;
+        }
+        .feature-card:hover,
+        .feature-card:focus-within {
+            transform: translateY(-10px);
+            box-shadow: 0 16px 40px rgba(6,182,212,0.15);
+            border-color: rgba(6,182,212,0.5);
+        }
+        .feature-card:hover::before,
+        .feature-card:focus-within::before {
+            opacity: 1;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: radial-gradient(circle at 50% 0, rgba(6,182,212,0.4) 0%, rgba(6,182,212,0) 70%);
+            border-radius: 1rem;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
 
-    /* Reduced motion support */
-    @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
-    }
+        /* SVG icon color variable */
+        .svg-icon-color {
+            color: var(--accent-cyan);
+        }
 
-    /* Back to top */
-    #back-to-top { position: fixed; right: 1rem; bottom: 1.25rem; z-index:60; display:none; }
-  </style>
+        /* Skip link for accessibility */
+        .skip-link { position: absolute; left: -999px; top: auto; width:1px; height:1px; overflow:hidden; }
+        .skip-link:focus { left: 1rem; top: 1rem; width:auto; height:auto; padding:.5rem .75rem; background:#fff; border-radius:6px; z-index:50; color:#0B1220; box-shadow:0 6px 18px rgba(2,6,23,0.08); }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+        }
+
+        /* Back to top button style */
+        #back-to-top {
+            position: fixed;
+            right: 1.5rem;
+            bottom: 1.5rem;
+            z-index: 60;
+            display: none;
+            transition: all 0.3s ease-in-out;
+        }
+        #back-to-top:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(6,182,212,0.3);
+        }
+    </style>
 </head>
 <body class="antialiased">
 
-  <a href="#main" class="skip-link">Skip to content</a>
+    <a href="#main" class="skip-link">Skip to content</a>
 
-  <!-- Header -->
-  <header id="site-header" class="glass-effect fixed w-full z-30">
-    <nav class="container mx-auto px-6 py-4 flex justify-between items-center" aria-label="Main navigation">
-      <div class="flex items-center gap-3">
-        <a href="#" class="text-2xl font-extrabold text-[var(--text-dark)] flex items-center" aria-label="MarsaMart home">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2 svg-icon-color" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-14L4 7m8 4v10M4 7v10l8 4"/>
-          </svg>
-          Marsa<span style="color:var(--accent-cyan)">Mart</span>
-        </a>
-      </div>
-
-      <div class="hidden md:flex items-center space-x-8">
-        <a href="#problem" class="text-gray-400 hover:text-[var(--accent-cyan)] font-medium transition focus:outline-none focus:ring-2 focus:ring-[var(--accent-cyan)] rounded">The Problem</a>
-        <a href="#solution" class="text-gray-400 hover:text-[var(--accent-cyan)] font-medium transition focus:outline-none focus:ring-2 focus:ring-[var(--accent-cyan)] rounded">Solution</a>
-        <a href="#features" class="text-gray-400 hover:text-[var(--accent-cyan)] font-medium transition focus:outline-none focus:ring-2 focus:ring-[var(--accent-cyan)] rounded">Features</a>
-      </div>
-
-      <div class="md:hidden">
-        <button id="mobile-menu-button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle navigation" class="text-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent-cyan)]">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
-        </button>
-      </div>
-    </nav>
-
-    <div id="mobile-menu" class="hidden md:hidden glass-effect" role="menu" aria-hidden="true">
-      <div class="px-6 pt-2 pb-4 space-y-2">
-        <a href="#problem" role="menuitem" class="block py-2 text-gray-300 hover:text-[var(--accent-cyan)] font-medium">The Problem</a>
-        <a href="#solution" role="menuitem" class="block py-2 text-gray-300 hover:text-[var(--accent-cyan)] font-medium">Solution</a>
-        <a href="#features" role="menuitem" class="block py-2 text-gray-300 hover:text-[var(--accent-cyan)] font-medium">Features</a>
-      </div>
-    </div>
-  </header>
-
-  <main id="main" class="pt-28">
-
-    <!-- Hero Section (dark) -->
-    <section class="relative text-[var(--text-dark)] pt-20 pb-20">
-      <div class="absolute inset-0 hero-bg -z-10" style="background: linear-gradient(180deg, rgba(11,18,32,0.8), rgba(11,18,32,0.9)), url('https://images.unsplash.com/photo-1518174116499-5264b38d7211?q=80&w=2071&auto=format&fit=crop');"></div>
-
-      <div class="container mx-auto px-6 text-center">
-        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 tracking-tight">The Future of Ship Provisioning</h1>
-        <p class="text-lg md:text-xl text-gray-400 mb-8 max-w-3xl mx-auto">A unified, mobile-first platform to source, order, and manage all your vessel supplies. Save time, reduce costs, and eliminate delays.</p>
-
-        <div class="mt-9 flex items-center justify-center gap-6 text-sm text-gray-500">
-          <div class="flex items-center gap-2"><span class="font-semibold text-[var(--text-dark)]">90%+</span> faster procurement</div>
-          <div class="hidden sm:block">•</div>
-          <div class="flex items-center gap-2">Trusted suppliers across major ports</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- The Problem -->
-    <section id="problem" class="py-20 bg-transparent">
-      <div class="container mx-auto px-6">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl md:text-4xl font-extrabold text-[var(--text-dark)] mb-3">The "Old Way" is Obsolete</h2>
-          <p class="text-md md:text-lg text-gray-400 max-w-2xl mx-auto">Ship provisioning is stuck in the past. Manual processes are inefficient, costly, and create unnecessary risks for modern shipping operations.</p>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-8">
-          <article class="glass-effect p-6 md:p-8 rounded-2xl feature-card" tabindex="0">
-            <div class="mb-4 text-4xl">⏳</div>
-            <h3 class="text-2xl font-bold mb-2 text-[var(--text-dark)]">Slow & Manual</h3>
-            <p class="text-gray-400 leading-relaxed">Days are wasted on email chains, phone calls, and manual comparisons. This administrative drag slows your operation.</p>
-          </article>
-
-          <article class="glass-effect p-6 md:p-8 rounded-2xl feature-card" tabindex="0">
-            <div class="mb-4 text-4xl">💸</div>
-            <h3 class="text-2xl font-bold mb-2 text-[var(--text-dark)]">No Price Transparency</h3>
-            <p class="text-gray-400 leading-relaxed">Operators are forced to negotiate blindly, with no easy way to compare market prices, leading to inflated costs.</p>
-          </article>
-
-          <article class="glass-effect p-6 md:p-8 rounded-2xl feature-card" tabindex="0">
-            <div class="mb-4 text-4xl">⚠️</div>
-            <h3 class="text-2xl font-bold mb-2 text-[var(--text-dark)]">High Risk of Delays</h3>
-            <p class="text-gray-400 leading-relaxed">A single ordering mistake or miscommunication can lead to incorrect supplies and costly delays.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Introducing MarsaMart (Solution) with SVG logo -->
-    <section id="solution" class="py-20 bg-transparent">
-      <div class="container mx-auto px-6">
-        <div class="flex flex-col md:flex-row items-center gap-12">
-          <!-- Text column -->
-          <div class="md:w-1/2 md:pr-10">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-[var(--text-dark)] mb-4">Introducing <span style="color:var(--accent-cyan)">MarsaMart</span></h2>
-            <p class="text-lg text-gray-400 mb-6">Our intelligent, mobile-first marketplace connects you directly to a network of vetted suppliers, giving you unprecedented control, speed, and transparency.</p>
-
-            <ul class="space-y-3 text-lg text-gray-400">
-              <li class="flex items-start gap-3"><svg class="h-5 w-5 svg-icon-color mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Reduce procurement time by over 90%.</li>
-              <li class="flex items-start gap-3"><svg class="h-5 w-5 svg-icon-color mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Achieve cost savings with price transparency.</li>
-              <li class="flex items-start gap-3"><svg class="h-5 w-5 svg-icon-color mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Eliminate costly delays caused by incorrect orders.</li>
-            </ul>
-          </div>
-
-          <!-- SVG column -->
-          <div class="md:w-1/2 mt-6 md:mt-0">
-            <div class="relative rounded-3xl overflow-hidden glass-effect p-8 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-64 w-64 svg-icon-color" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-14L4 7m8 4v10M4 7v10l8 4"/>
-                </svg>
+    <!-- Header -->
+    <header id="site-header" class="glass-effect-header fixed w-full z-30">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center" aria-label="Main navigation">
+            <div class="flex items-center gap-3">
+                <a href="#" class="text-2xl font-extrabold text-[var(--text-dark)] flex items-center" aria-label="MarsaMart home">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2 svg-icon-color" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-14L4 7m8 4v10M4 7v10l8 4"/>
+                    </svg>
+                    Marsa<span style="color:var(--accent-cyan)">Mart</span>
+                </a>
             </div>
-          </div>
+
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#problem" class="text-gray-400 hover:text-[var(--accent-cyan-light)] font-medium transition focus:outline-none focus:ring-2 focus:ring-[var(--accent-cyan)] rounded px-2 py-1">The Problem</a>
+                <a href="#solution" class="text-gray-400 hover:text-[var(--accent-cyan-light)] font-medium transition focus:outline-none focus:ring-2 focus:ring-[var(--accent-cyan)] rounded px-2 py-1">Solution</a>
+                <a href="#features" class="text-gray-400 hover:text-[var(--accent-cyan-light)] font-medium transition focus:outline-none focus:ring-2 focus:ring-[var(--accent-cyan)] rounded px-2 py-1">Features</a>
+            </div>
+
+            <div class="md:hidden">
+                <button id="mobile-menu-button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle navigation" class="text-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent-cyan)] transition-colors hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden glass-effect" role="menu" aria-hidden="true">
+            <div class="px-6 pt-2 pb-4 space-y-2">
+                <a href="#problem" role="menuitem" class="block py-2 text-gray-300 hover:text-[var(--accent-cyan-light)] font-medium">The Problem</a>
+                <a href="#solution" role="menuitem" class="block py-2 text-gray-300 hover:text-[var(--accent-cyan-light)] font-medium">Solution</a>
+                <a href="#features" role="menuitem" class="block py-2 text-gray-300 hover:text-[var(--accent-cyan-light)] font-medium">Features</a>
+            </div>
         </div>
-      </div>
-    </section>
+    </header>
 
-    <!-- Features -->
-    <section id="features" class="py-20 bg-transparent">
-      <div class="container mx-auto px-6">
-        <div class="text-center mb-10">
-          <h2 class="text-3xl md:text-4xl font-extrabold text-[var(--text-dark)] mb-3">A New Standard of Efficiency</h2>
-          <p class="text-md md:text-lg text-gray-400 max-w-3xl mx-auto">MarsaMart is more than a marketplace; it's an intelligent platform designed for modern shipping.</p>
+    <main id="main" class="pt-28">
+
+        <!-- Hero Section (dark) -->
+        <section class="relative text-[var(--text-dark)] pt-20 pb-20 overflow-hidden">
+            <div class="absolute inset-0 -z-10 bg-center" style="background-image: url('https://images.unsplash.com/photo-1518174116499-5264b38d7211?q=80&w=2071&auto=format&fit=crop'); background-size: cover;"></div>
+            <div class="hero-bg absolute inset-0 -z-10"></div>
+
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 tracking-tight">The Future of Ship Provisioning</h1>
+                <p class="text-lg md:text-xl text-gray-400 mb-8 max-w-3xl mx-auto">A unified, mobile-first platform to source, order, and manage all your vessel supplies. Save time, reduce costs, and eliminate delays.</p>
+
+                <div class="mt-9 flex items-center justify-center gap-6 text-sm text-gray-500">
+                    <div class="flex items-center gap-2"><span class="font-semibold text-[var(--text-dark)]">90%+</span> faster procurement</div>
+                    <div class="hidden sm:block">•</div>
+                    <div class="flex items-center gap-2">Trusted suppliers across major ports</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Problem -->
+        <section id="problem" class="py-20 bg-transparent">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-[var(--text-dark)] mb-3">The "Old Way" is Obsolete</h2>
+                    <p class="text-md md:text-lg text-gray-400 max-w-2xl mx-auto">Ship provisioning is stuck in the past. Manual processes are inefficient, costly, and create unnecessary risks for modern shipping operations.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <article class="glass-effect p-6 md:p-8 rounded-2xl feature-card" tabindex="0">
+                        <div class="mb-4 text-4xl">⏳</div>
+                        <h3 class="text-2xl font-bold mb-2 text-[var(--text-dark)]">Slow & Manual</h3>
+                        <p class="text-gray-400 leading-relaxed">Days are wasted on email chains, phone calls, and manual comparisons. This administrative drag slows your operation.</p>
+                    </article>
+
+                    <article class="glass-effect p-6 md:p-8 rounded-2xl feature-card" tabindex="0">
+                        <div class="mb-4 text-4xl">💸</div>
+                        <h3 class="text-2xl font-bold mb-2 text-[var(--text-dark)]">No Price Transparency</h3>
+                        <p class="text-gray-400 leading-relaxed">Operators are forced to negotiate blindly, with no easy way to compare market prices, leading to inflated costs.</p>
+                    </article>
+
+                    <article class="glass-effect p-6 md:p-8 rounded-2xl feature-card" tabindex="0">
+                        <div class="mb-4 text-4xl">⚠️</div>
+                        <h3 class="text-2xl font-bold mb-2 text-[var(--text-dark)]">High Risk of Delays</h3>
+                        <p class="text-gray-400 leading-relaxed">A single ordering mistake or miscommunication can lead to incorrect supplies and costly delays.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Introducing MarsaMart (Solution) with SVG logo -->
+        <section id="solution" class="py-20 bg-transparent">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <!-- Text column -->
+                    <div class="md:w-1/2 md:pr-10">
+                        <h2 class="text-3xl md:text-4xl font-extrabold text-[var(--text-dark)] mb-4">Introducing <span style="color:var(--accent-cyan)">MarsaMart</span></h2>
+                        <p class="text-lg text-gray-400 mb-6">Our intelligent, mobile-first marketplace connects you directly to a network of vetted suppliers, giving you unprecedented control, speed, and transparency.</p>
+
+                        <ul class="space-y-3 text-lg text-gray-400">
+                            <li class="flex items-start gap-3"><svg class="h-5 w-5 svg-icon-color mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Reduce procurement time by over 90%.</li>
+                            <li class="flex items-start gap-3"><svg class="h-5 w-5 svg-icon-color mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Achieve cost savings with price transparency.</li>
+                            <li class="flex items-start gap-3"><svg class="h-5 w-5 svg-icon-color mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Eliminate costly delays caused by incorrect orders.</li>
+                        </ul>
+                    </div>
+
+                    <!-- SVG column -->
+                    <div class="md:w-1/2 mt-6 md:mt-0">
+                        <div class="relative rounded-3xl overflow-hidden glass-effect p-8 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-64 w-64 svg-icon-color animate-pulse-slow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-14L4 7m8 4v10M4 7v10l8 4"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features" class="py-20 bg-transparent">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-[var(--text-dark)] mb-3">A New Standard of Efficiency</h2>
+                    <p class="text-md md:text-lg text-gray-400 max-w-3xl mx-auto">MarsaMart is more than a marketplace; it's an intelligent platform designed for modern shipping.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="glass-effect p-6 rounded-2xl feature-card" tabindex="0">
+                        <div class="bg-[var(--accent-cyan)]/10 text-[var(--accent-cyan)] rounded-lg w-12 h-12 flex items-center justify-center mb-4"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div>
+                        <h3 class="text-xl font-bold text-[var(--text-dark)] mb-2">Mobile-First Design</h3>
+                        <p class="text-gray-400">Manage procurement from anywhere. Designed for captains and agents on the move.</p>
+                    </div>
+
+                    <div class="glass-effect p-6 rounded-2xl feature-card" tabindex="0">
+                        <div class="bg-[var(--accent-cyan)]/10 text-[var(--accent-cyan)] rounded-lg w-12 h-12 flex items-center justify-center mb-4"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+                        <h3 class="text-xl font-bold text-[var(--text-dark)] mb-2">Vetted Supplier Network</h3>
+                        <p class="text-gray-400">Access a curated network of trusted suppliers in every regional port.</p>
+                    </div>
+
+                    <div class="glass-effect p-6 rounded-2xl feature-card" tabindex="0">
+                        <div class="bg-[var(--accent-cyan)]/10 text-[var(--accent-cyan)] rounded-lg w-12 h-12 flex items-center justify-center mb-4"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg></div>
+                        <h3 class="text-xl font-bold text-[var(--text-dark)] mb-2">Unified Invoicing</h3>
+                        <p class="text-gray-400">Consolidate orders into a single, simple invoice. Simplify accounting.</p>
+                    </div>
+
+                    <div class="glass-effect p-6 rounded-2xl feature-card" tabindex="0">
+                        <div class="bg-[var(--accent-cyan)]/10 text-[var(--accent-cyan)] rounded-lg w-12 h-12 flex items-center justify-center mb-4"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>
+                        <h3 class="text-xl font-bold text-[var(--text-dark)] mb-2">Predictive Analytics</h3>
+                        <p class="text-gray-400">AI forecasts needs based on route and vessel data.</p>
+                    </div>
+
+                    <div class="glass-effect p-6 rounded-2xl feature-card" tabindex="0">
+                        <div class="bg-[var(--accent-cyan)]/10 text-[var(--accent-cyan)] rounded-lg w-12 h-12 flex items-center justify-center mb-4"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
+                        <h3 class="text-xl font-bold text-[var(--text-dark)] mb-2">Smart Scheduling</h3>
+                        <p class="text-gray-400">Schedule deliveries to match your vessel ETA.</p>
+                    </div>
+
+                    <div class="glass-effect p-6 rounded-2xl feature-card" tabindex="0">
+                        <div class="bg-[var(--accent-cyan)]/10 text-[var(--accent-cyan)] rounded-lg w-12 h-12 flex items-center justify-center mb-4"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2"/></svg></div>
+                        <h3 class="text-xl font-bold text-[var(--text-dark)] mb-2">Real-Time Budgeting</h3>
+                        <p class="text-gray-400">Track spending in real-time while building orders.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-transparent text-[var(--text-dark)] py-12 border-t border-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-6 md:mb-0">
+                    <a href="#" class="text-2xl font-extrabold text-[var(--text-dark)]">Marsa<span style="color:var(--accent-cyan)">Mart</span></a>
+                    <p class="text-sm text-gray-400 mt-2">Digitizing the Maritime Supply Chain.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-[var(--accent-cyan-light)] transition" aria-label="Twitter"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.28C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z"/></svg></a>
+                    <a href="#" class="text-gray-500 hover:text-[var(--accent-cyan-light)] transition" aria-label="Instagram"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19M18.5,18.5V13.2A3.26,3.26 0 0,0 15.24,9.94C14.39,9.94 13.4,10.43 12.92,11.24V10.13H10.13V18.5H12.92V13.57C12.92,12.8 13.54,12.17 14.31,12.17C15.08,12.17 15.71,12.8 15.71,13.57V18.5H18.5M6.88,8.56A1.68,1.68 0 0,0 8.56,6.88C8.56,6 7.78,5.21 6.88,5.21C6,5.21 5.21,6 5.21,6.88C5.21,7.78 6,8.56 6.88,8.56M8.27,18.5V10.13H5.5V18.5H8.27Z"/></svg></a>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-sm text-gray-500">
+                <p>&copy; <span id="year"></span> MarsaMart. All Rights Reserved.</p>
+            </div>
         </div>
+    </footer>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div class="glass-effect p-6 rounded-2xl feature-card" tabindex="0">
-            <div class="bg-[var(--accent-cyan)]/10 text-[var(--accent-cyan)] rounded-lg w-12 h-12 flex items-center justify-center mb-4"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div>
-            <h3 class="text-xl font-bold text-[var(--text-dark)] mb-2">Mobile-First Design</h3>
-            <p class="text-gray-400">Manage procurement from anywhere. Designed for captains and agents on the move.</p>
-          </div>
+    <!-- Back to top -->
+    <button id="back-to-top" class="bg-[var(--accent-cyan)] hover:bg-cyan-500 text-white p-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-cyan)]" aria-label="Back to top">
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+    </button>
 
-          <div class="glass-effect p-6 rounded-2xl feature-card" tabindex="0">
-            <div class="bg-[var(--accent-cyan)]/10 text-[var(--accent-cyan)] rounded-lg w-12 h-12 flex items-center justify-center mb-4"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-            <h3 class="text-xl font-bold text-[var(--text-dark)] mb-2">Vetted Supplier Network</h3>
-            <p class="text-gray-400">Access a curated network of trusted suppliers in every regional port.</p>
-          </div>
+    <script>
+        // Copyright year
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-          <div class="glass-effect p-6 rounded-2xl feature-card" tabindex="0">
-            <div class="bg-[var(--accent-cyan)]/10 text-[var(--accent-cyan)] rounded-lg w-12 h-12 flex items-center justify-center mb-4"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg></div>
-            <h3 class="text-xl font-bold text-[var(--text-dark)] mb-2">Unified Invoicing</h3>
-            <p class="text-gray-400">Consolidate orders into a single, simple invoice. Simplify accounting.</p>
-          </div>
+        // Mobile menu toggle
+        const mobileBtn = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileBtn.addEventListener('click', () => {
+            const expanded = mobileBtn.getAttribute('aria-expanded') === 'true';
+            mobileBtn.setAttribute('aria-expanded', String(!expanded));
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.setAttribute('aria-hidden','false');
+                const first = mobileMenu.querySelector('[role="menuitem"]');
+                if (first) first.focus();
+            } else {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.setAttribute('aria-hidden','true');
+                mobileBtn.focus();
+            }
+        });
 
-          <div class="glass-effect p-6 rounded-2xl feature-card" tabindex="0">
-            <div class="bg-[var(--accent-cyan)]/10 text-[var(--accent-cyan)] rounded-lg w-12 h-12 flex items-center justify-center mb-4"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>
-            <h3 class="text-xl font-bold text-[var(--text-dark)] mb-2">Predictive Analytics</h3>
-            <p class="text-gray-400">AI forecasts needs based on route and vessel data.</p>
-          </div>
+        // Header shadow & back-to-top visibility
+        const header = document.getElementById('site-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) header.classList.add('shadow-lg');
+            else header.classList.remove('shadow-lg');
 
-          <div class="glass-effect p-6 rounded-2xl feature-card" tabindex="0">
-            <div class="bg-[var(--accent-cyan)]/10 text-[var(--accent-cyan)] rounded-lg w-12 h-12 flex items-center justify-center mb-4"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
-            <h3 class="text-xl font-bold text-[var(--text-dark)] mb-2">Smart Scheduling</h3>
-            <p class="text-gray-400">Schedule deliveries to match your vessel ETA.</p>
-          </div>
+            const back = document.getElementById('back-to-top');
+            if (window.scrollY > 400) back.style.display = 'block';
+            else back.style.display = 'none';
+        }, { passive: true });
 
-          <div class="glass-effect p-6 rounded-2xl feature-card" tabindex="0">
-            <div class="bg-[var(--accent-cyan)]/10 text-[var(--accent-cyan)] rounded-lg w-12 h-12 flex items-center justify-center mb-4"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2"/></svg></div>
-            <h3 class="text-xl font-bold text-[var(--text-dark)] mb-2">Real-Time Budgeting</h3>
-            <p class="text-gray-400">Track spending in real-time while building orders.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+        // Back to top
+        document.getElementById('back-to-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-transparent text-[var(--text-dark)] py-12 border-t border-gray-800">
-    <div class="container mx-auto px-6">
-      <div class="flex flex-col md:flex-row justify-between items-center">
-        <div class="text-center md:text-left mb-6 md:mb-0">
-          <a href="#" class="text-2xl font-extrabold text-[var(--text-dark)]">Marsa<span style="color:var(--accent-cyan)">Mart</span></a>
-          <p class="text-sm text-gray-400 mt-2">Digitizing the Maritime Supply Chain.</p>
-        </div>
-        <div class="flex space-x-6">
-          <a href="#" class="text-gray-500 hover:text-[var(--accent-cyan)] transition" aria-label="Twitter"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.28C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z"/></svg></a>
-          <a href="#" class="text-gray-500 hover:text-[var(--accent-cyan)] transition" aria-label="Instagram"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19M18.5,18.5V13.2A3.26,3.26 0 0,0 15.24,9.94C14.39,9.94 13.4,10.43 12.92,11.24V10.13H10.13V18.5H12.92V13.57C12.92,12.8 13.54,12.17 14.31,12.17C15.08,12.17 15.71,12.8 15.71,13.57V18.5H18.5M6.88,8.56A1.68,1.68 0 0,0 8.56,6.88C8.56,6 7.78,5.21 6.88,5.21C6,5.21 5.21,6 5.21,6.88C5.21,7.78 6,8.56 6.88,8.56M8.27,18.5V10.13H5.5V18.5H8.27Z"/></svg></a>
-        </div>
-      </div>
-
-      <div class="mt-8 pt-8 border-t border-gray-800 text-center text-sm text-gray-500">
-        <p>&copy; <span id="year"></span> MarsaMart. All Rights Reserved.</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Back to top -->
-  <button id="back-to-top" class="bg-[var(--accent-cyan)] hover:bg-cyan-500 text-white p-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent-cyan)]" aria-label="Back to top">
-    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
-  </button>
-
-  <script>
-    // Copyright year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Mobile menu toggle
-    const mobileBtn = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    mobileBtn.addEventListener('click', () => {
-      const expanded = mobileBtn.getAttribute('aria-expanded') === 'true';
-      mobileBtn.setAttribute('aria-expanded', String(!expanded));
-      if (mobileMenu.classList.contains('hidden')) {
-        mobileMenu.classList.remove('hidden');
-        mobileMenu.setAttribute('aria-hidden','false');
-        const first = mobileMenu.querySelector('[role="menuitem"]');
-        if (first) first.focus();
-      } else {
-        mobileMenu.classList.add('hidden');
-        mobileMenu.setAttribute('aria-hidden','true');
-        mobileBtn.focus();
-      }
-    });
-
-    // Header shadow & back-to-top visibility
-    const header = document.getElementById('site-header');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 20) header.classList.add('shadow-lg');
-      else header.classList.remove('shadow-lg');
-
-      const back = document.getElementById('back-to-top');
-      if (window.scrollY > 400) back.style.display = 'block';
-      else back.style.display = 'none';
-    }, { passive: true });
-
-    // Back to top
-    document.getElementById('back-to-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-    // Close mobile menu on Escape
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        if (!mobileMenu.classList.contains('hidden')) {
-          mobileMenu.classList.add('hidden');
-          mobileBtn.setAttribute('aria-expanded','false');
-          mobileMenu.setAttribute('aria-hidden','true');
-          mobileBtn.focus();
-        }
-      }
-    });
-  </script>
+        // Close mobile menu on Escape
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                    mobileBtn.setAttribute('aria-expanded','false');
+                    mobileMenu.setAttribute('aria-hidden','true');
+                    mobileBtn.focus();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
